@@ -12,7 +12,7 @@ public class qpGridNode : qpNode {
     /// <param name="position">The position of this Node</param>
 	public qpGridNode(Vector3 position)
 	{
-        SetCoordinate(position);
+        Coordinate = position;
         qpManager.Instance.RegisterGridpoint(this);
 	}
     

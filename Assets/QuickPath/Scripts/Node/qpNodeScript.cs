@@ -56,7 +56,7 @@ public class qpNodeScript : MonoBehaviour
         {
             foreach (qpGridNode gn in qpManager.Instance.gridpoints)
             {
-                if (Vector3.Distance(gn.GetCoordinate(), this.transform.position) < ScanRadius) candidates.Add(gn);
+				if (Vector3.Distance(gn.Coordinate, this.transform.position) < ScanRadius) candidates.Add(gn);
             }
         }
 
@@ -89,7 +89,7 @@ public class qpNodeScript : MonoBehaviour
         {
             foreach (qpNode n in Node.Contacts)
             {
-                Debug.DrawLine(this.transform.position, n.GetCoordinate(), n is qpGridNode?Color.green:Color.yellow);
+				Debug.DrawLine(this.transform.position, n.Coordinate, n is qpGridNode?Color.green:Color.yellow);
             }
         }
         

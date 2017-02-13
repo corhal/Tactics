@@ -67,10 +67,7 @@ public class qpMoveObject : MonoBehaviour
     public GameObject destinationMarker;
     private int _moveCounter = 0;
 
-    /// <summary>
-    /// Use this for initialization
-    /// </summary>
-    public virtual void Start()
+    public virtual void Start() // нафига он public virtual?
     {
         FindClosestNode();
     }
@@ -80,94 +77,98 @@ public class qpMoveObject : MonoBehaviour
     /// </summary>
     /// <param name="destination">Desired desination node</param>
     public void MakePath(qpNode destination)
-    {
-        SetPath(AStar(_nearNode(), destination));
-    }
+	{
+		SetPath (AStar (_nearNode (), destination));
+	}
 
     /// <summary>
     /// Creates a path to the desired coordinate, and begins walking the path
     /// </summary>
     /// <param name="destination">Desired desination</param>
     public void MakePath(Vector3 destination)
-    {
-        SetPath(AStar(_nearNode(), qpManager.Instance.FindNodeClosestTo(destination)));
-    }
+	{
+		SetPath (AStar (_nearNode (), qpManager.Instance.FindNodeClosestTo (destination)));
+	}
 
     /// <summary>
     /// Hands the object a new path, which it will immediately begin to walk
     /// </summary>
     /// <param name="path">The new path</param>
     public void SetPath(List<qpNode> path)
-    {
-        if (path.Count > 0)
-        {
-            //check to see if already moving and if so determine which node are closest.
-            if ((_moveCounter + 1) < Path.Count && path.Count > 1)
-            {
-				if (Path [_moveCounter].GetCoordinate () == path [1].GetCoordinate ()) {
+	{
+		if (path.Count > 0) {
+			//check to see if already moving and if so determine which nodes are closest.
+			if ((_moveCounter + 1) < Path.Count && path.Count > 1) {
+				if (Path [_moveCounter].Coordinate == path [1].Coordinate) {
 					path.RemoveAt (0);
 				}
-            }
-            _moveCounter = 0;
-            FinalDestination = path[path.Count - 1].GetCoordinate();
-            Path = path;
-            if (DrawPathInEditor) _drawDestination();
-            _updateDestinations();
-        }
-    }
+			}
+			_moveCounter = 0;
+			FinalDestination = path [path.Count - 1].Coordinate;
+			Path = path;
+			if (DrawPathInEditor) {
+				_drawDestination ();
+			}
+			_updateDestinations ();
+		}
+	}
 
     /// <summary>
     /// Hands the object a new path, which it will immediately begin to walk
     /// </summary>
     /// <param name="path">The new path</param>
     public void SetPath(List<Vector3> path)
-    {
-        if (path.Count > 0 && qpManager.Instance.nodes.Count > 0)
-        {
-            _moveCounter = 0;
-            FinalDestination = path[path.Count - 1];
-            List<qpNode> _list = new List<qpNode>();
-            for (int i = 0; i < path.Count; i++) _list.Add(qpManager.Instance.FindNodeClosestTo(path[i]));
-            Path = _list;
+	{
+		if (path.Count > 0 && qpManager.Instance.nodes.Count > 0) {
+			_moveCounter = 0;
+			FinalDestination = path [path.Count - 1];
+			List<qpNode> _list = new List<qpNode> ();
+			for (int i = 0; i < path.Count; i++) {
+				_list.Add (qpManager.Instance.FindNodeClosestTo (path [i]));
+			}
+			Path = _list;
 
-            if (DrawPathInEditor) _drawDestination();
-            _updateDestinations();
-        }
-    }
+			if (DrawPathInEditor) {
+				_drawDestination ();
+			}
+			_updateDestinations ();
+		}
+	}
 
     /// <summary>
-    /// Called whenever this object reaches its destination. This method is empty and intended to be overriden
+    /// Called whenever this object reaches its destination. This method is empty and intended to be overriden // really?
     /// </summary>
     public virtual void FinishedPath()
-    {
-        if (destinationMarker != null) GameObject.DestroyImmediate(destinationMarker);
-        destinationMarker = null;
-    }
+	{
+		if (destinationMarker != null) {
+			GameObject.DestroyImmediate (destinationMarker);
+		}
+		destinationMarker = null;
+	}
 
     /// <summary>
     /// Finds the closest node to the object
     /// </summary>
     public void FindClosestNode()
-    {
-        PreviousNode = qpManager.Instance.FindNodeClosestTo(this.transform.position);
-    }
+	{
+		PreviousNode = qpManager.Instance.FindNodeClosestTo (this.transform.position);
+	}
 
     /// <summary>
     /// Update is called once per frame
     /// </summary>
-    protected void FixedUpdate()
-    {
-        _verifyNodes();
-        _move();
-        if (DrawPathInEditor && Path.Count > 0)
-        {
-            for (int i = 1; i < Path.Count; i++)
-            {
-                qpNode prevNode = Path[i - 1];
-                Debug.DrawLine(prevNode.GetCoordinate() + Offset, Path[i].GetCoordinate() + Offset, Color.red, 0, false);
-            }
-        }
-    }
+    protected void FixedUpdate() // Why fixed?..
+	{
+		_verifyNodes ();
+		_move ();
+		if (DrawPathInEditor && Path.Count > 0) {
+			for (int i = 1; i < Path.Count; i++) {
+				qpNode prevNode = Path [i - 1];
+				Debug.DrawLine (prevNode.Coordinate + Offset, Path [i].Coordinate + Offset, Color.red, 0, false);
+			}
+		}
+	}
+
     /// <summary>
     /// Performs an A* algorithm
     /// </summary>
@@ -175,163 +176,144 @@ public class qpMoveObject : MonoBehaviour
     /// <param name="end">Destination Node</param>
     /// <returns>The fastest path from start node to the end node</returns>
     protected List<qpNode> AStar(qpNode start, qpNode end)
-    {
-        //Debug.Log("astar from "+start.GetCoordinate()+" to "+end.GetCoordinate());
-        List<qpNode> path = new List<qpNode>();                           // will hold the final path
-        bool complete = (end == null || start == null) ? true : false;    // Regulates the main while loop of the algorithm
-        List<qpNode> closedList = new List<qpNode>();                     // Closed list for the best candidates.
-        List<qpNode> openList = new List<qpNode>();                       // Open list for all candidates(A home for all).
-        qpNode candidate = start;                                         // The current node candidate which is being analyzed in the algorithm.
-        openList.Add(start);                                              // Start node is added to the openlist
+	{
+		List<qpNode> path = new List<qpNode> ();                           // will hold the final path
+		bool complete = (end == null || start == null) ? true : false;     // Regulates the main while loop of the algorithm
+		List<qpNode> closedList = new List<qpNode> ();                     // Closed list for the best candidates.
+		List<qpNode> openList = new List<qpNode> ();                       // Open list for all candidates(A home for all).
+		qpNode candidate = start;                                          // The current node candidate which is being analyzed in the algorithm.
+		openList.Add (start);                                              // Start node is added to the openlist
 		if (start == null || end == null) {
-			return null;                                                  // algorithm cannot be executed if either start or end node are null.
+			return null;                                                   // algorithm cannot be executed if either start or end node are null.
 		}
 
-        int astarSteps = 0;
-        while (openList.Count > 0 && !complete)                           // ALGORITHM STARTS HERE.
-        {
-            astarSteps++;
-            if (candidate == end)                                         // If current candidate is end, the algorithm has been completed and the path can be built.
-            {
-                DestinationNode = end;
-                complete = true;
-                bool pathComplete = false;
-                qpNode node = end;
-                while (!pathComplete)
-                {
-                    path.Add(node);
+		int astarSteps = 0;
+		while (openList.Count > 0 && !complete) {                          // ALGORITHM STARTS HERE.
+			astarSteps++;
+			if (candidate == end) {                                        // If current candidate is end, the algorithm has been completed and the path can be built.
+				DestinationNode = end;
+				complete = true;
+				bool pathComplete = false;
+				qpNode node = end;
+				while (!pathComplete) {
+					path.Add (node);
 					if (node == start) {
 						pathComplete = true;
 					}
-                    node = node.GetParent();
-                }
-            }
-            List<qpNode> allNodes = (DiagonalMovement ? candidate.Contacts : candidate.NonDiagonalContacts);
-            List<qpNode> potentialNodes = new List<qpNode>();
+					node = node.Parent;
+				}
+			}
+
+			List<qpNode> allNodes = (DiagonalMovement ? candidate.Contacts : candidate.NonDiagonalContacts);
+			List<qpNode> potentialNodes = new List<qpNode> ();
 			foreach (qpNode n in allNodes) {
 				if (n.traverseable) {
 					potentialNodes.Add (n);
 				}
 			}
-            foreach (qpNode n in potentialNodes)
-            {
-                bool inClosed = closedList.Contains(n);
-                bool inOpen = openList.Contains(n);
-                //Mark candidate as parent if not in open nor closed.
-                if (!inClosed && !inOpen)
-                {
-                    n.SetParent(candidate);
-                    openList.Add(n);
-                }
+			foreach (qpNode n in potentialNodes) {
+				bool inClosed = closedList.Contains (n);
+				bool inOpen = openList.Contains (n);
+				//Mark candidate as parent if not in open nor closed.
+				if (!inClosed && !inOpen) {
+					n.Parent = candidate;
+					openList.Add (n);
+				}
                 //But if in open, then calculate which is the better parent: Candidate or current parent.
-                else if (inOpen)
-                {
-                    float math2 = n.GetParent().GetG();
-                    float math1 = candidate.GetG();
-                    if (math2 > math1)
-                    {
-                        //candidate is the better parent as it has a lower combined g value.
-                        n.SetParent(candidate);
-                    }
-                }
-            }
+                else if (inOpen) {
+					float math2 = n.Parent.G;
+					float math1 = candidate.G;
+					if (math2 > math1) {
+						//candidate is the better parent as it has a lower combined g value.
+						n.Parent = candidate;
+					}
+				}
+			}
 
-            //Calculate h, g and total
+			//Calculate h, g and total
 			if (openList.Count == 0) {
 				break;
 			}
-            openList.RemoveAt(0);
+			openList.RemoveAt (0);
 			if (openList.Count == 0) {
 				break;
 			}
-            //the below for loop,if conditional and method call updates all nodes in openlist.
+			//the below for loop,if conditional and method call updates all nodes in openlist.
 			for (int i = 0; i < openList.Count; i++) {
-				openList [i].CalculateTotal (start, end);
+				openList [i].CalculateTotal (/*start,*/ end);
 			}
-            openList.Sort(delegate(qpNode node1, qpNode node2)
-            {
-                return node1.GetTotal().CompareTo(node2.GetTotal());
-            });
+			openList.Sort (delegate(qpNode node1, qpNode node2) {
+				return node1.Total.CompareTo (node2.Total);
+			});
 
-            candidate = openList[0];
-            closedList.Add(candidate);
-        }
-        //Debug.Log("astar completed in " + astarSteps + " steps. Path found:"+complete);
-        path.Reverse();
-        return path;
-
-    }
+			candidate = openList [0];
+			closedList.Add (candidate);
+		}
+		//Debug.Log("astar completed in " + astarSteps + " steps. Path found:"+complete);
+		path.Reverse ();
+		return path;
+	}
 
     private void _verifyNodes()
-    {
-        bool outdated = false;
-        if (_nearNode() != null)
-        {
-            if (_nearNode().outdated)
-            {
-                outdated = true;
-            }
-			if (DestinationNode != null && DestinationNode.outdated)
-            {
+	{
+		bool outdated = false;
+		if (_nearNode () != null) {
+			if (_nearNode ().outdated) {
+				outdated = true;
+			}
+			if (DestinationNode != null && DestinationNode.outdated) {
 				outdated = true;                
-            }
-            if (_moveCounter < Path.Count)
-            {
-                foreach (qpNode node in Path)
-                {
-                    if (node.outdated)
-                    {
-                        outdated = true;
-                        break;
-                    }
-                }
-            }
+			}
+			if (_moveCounter < Path.Count) {
+				foreach (qpNode node in Path) {
+					if (node.outdated) {
+						outdated = true;
+						break;
+					}
+				}
+			}
 
-            if (outdated)
-            {
-                MakePath(FinalDestination);
-            }
-        }
-    }
+			if (outdated) {
+				MakePath (FinalDestination);
+			}
+		}
+	}
 
     private void _move()
-    {
-        if (Path != null)
-        {
-            if (_moveCounter < Path.Count)
-            {
-                Moving = true;
-                _updateDestinations();
+	{
+		if (Path != null) {
+			if (_moveCounter < Path.Count) {
+				Moving = true;
+				_updateDestinations ();
 				if (AbleToMove) {
-					transform.position = Vector3.MoveTowards (transform.position, Path [_moveCounter].GetCoordinate () + Offset, Time.deltaTime * Speed);
+					transform.position = Vector3.MoveTowards (transform.position, Path [_moveCounter].Coordinate + Offset, Time.deltaTime * Speed);
 				}
-				if (Vector3.Distance (transform.position, Path [_moveCounter].GetCoordinate () + Offset) < SpillDistance) {
+				if (Vector3.Distance (transform.position, Path [_moveCounter].Coordinate + Offset) < SpillDistance) {
 					PreviousNode = Path [_moveCounter];
 					_moveCounter++;
 					if (_moveCounter < Path.Count) {
 						NextNode = Path [_moveCounter];
-					}
-					else
+					} else {
 						FinishedPath ();
+					}
 				}
-            }
-            else Moving = false;
-        }
-    }
+			} else {
+				Moving = false;
+			}
+		}
+	}
 
     private qpNode _nearNode()
-    {
-        qpNode node = (NextNode == null || !NextNode.outdated ? PreviousNode : NextNode);
-        if (node != null)
-        {
-			if (node.outdated || Vector3.Distance (node.GetCoordinate (), this.transform.position) > (SpillDistance * 1.5))
-            {
-                FindClosestNode();
-                return PreviousNode;
-            }
-        }
-        return node;
-    }
+	{
+		qpNode node = (NextNode == null || !NextNode.outdated ? PreviousNode : NextNode);
+		if (node != null) {
+			if (node.outdated || Vector3.Distance (node.Coordinate, this.transform.position) > (SpillDistance * 1.5)) {
+				FindClosestNode ();
+				return PreviousNode;
+			}
+		}
+		return node;
+	}
 
 
     private void _drawDestination()
@@ -341,16 +323,16 @@ public class qpMoveObject : MonoBehaviour
 		}
 		destinationMarker.GetComponent<Renderer> ().material.color = new Color (1, 0, 0);
 		if (Path.Count > 0) {
-			destinationMarker.transform.position = Path [Path.Count - 1].GetCoordinate () + Offset;
+			destinationMarker.transform.position = Path [Path.Count - 1].Coordinate + Offset;
 		}
 	}
 
     private void _updateDestinations()
 	{
 		if (NextNode != null && Path != null) {
-			MoveDirection = Vector3.Normalize (NextNode.GetCoordinate () - this.transform.position);
-			NextDestination = NextNode.GetCoordinate ();
-			FinalDestination = Path [Path.Count - 1].GetCoordinate ();
+			MoveDirection = Vector3.Normalize (NextNode.Coordinate - this.transform.position);
+			NextDestination = NextNode.Coordinate;
+			FinalDestination = Path [Path.Count - 1].Coordinate;
 		}
 	}
 }

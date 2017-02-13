@@ -1,9 +1,9 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{09E66C45-BD28-F44D-BB0B-13F9984E163E}") = "Tactics", "Assembly-CSharp.csproj", "{868F43F5-D44A-D335-6479-CD8549481814}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactics", "Assembly-CSharp.csproj", "{868F43F5-D44A-D335-6479-CD8549481814}"
 EndProject
-Project("{09E66C45-BD28-F44D-BB0B-13F9984E163E}") = "Tactics", "Assembly-CSharp-Editor.csproj", "{3F87CE18-5AF7-2659-C3A0-3F0343196C07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactics", "Assembly-CSharp-Editor.csproj", "{3F87CE18-5AF7-2659-C3A0-3F0343196C07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
