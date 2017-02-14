@@ -20,5 +20,10 @@ public class GameController : MonoBehaviour {
 
 	void Start () {
 		GameBoard = new Board (Width, Height, TilePrefab);
+
+		List<Tile> path = GameBoard.AStar (GameBoard.BoardTiles [0] [1], GameBoard.BoardTiles [2] [4]);
+		foreach (var tile in path) {
+			Debug.Log (tile.X + ":" + tile.Y);
+		}
 	}
 }
