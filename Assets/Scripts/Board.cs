@@ -84,7 +84,7 @@ public class Board {
 				}
 			}
 
-			foreach (Tile n in candidate.Neighbors) {	
+			foreach (Tile n in candidate.Neighbors) { // отсюда можно убирать тайлы, если через них нельзя пройти
 				// Mark candidate as parent if not in open nor closed.
 				if (!closedList.Contains (n) && !openList.Contains (n)) {
 					n.Parent = candidate;
@@ -99,10 +99,9 @@ public class Board {
 				}
 			}
 			// Calculate h, g and total
-			if (openList.Count == 0) {
-				break;
+			if (openList.Count > 0) {
+				openList.RemoveAt (0);
 			}
-			openList.RemoveAt (0); // y tho // допустим, в первый раз мы убрали start
 			if (openList.Count == 0) {
 				break;
 			}
