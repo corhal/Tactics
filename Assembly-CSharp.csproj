@@ -60,8 +60,13 @@
      <Compile Include="Assets\Scripts\Board.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\PathfindingObject.cs" />
+     <Compile Include="Assets\Scripts\Queue\FastPriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\Queue\FastPriorityQueueNode.cs" />
+     <Compile Include="Assets\Scripts\Queue\IFixedSizePriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\Queue\IPriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Squad.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
+     <Compile Include="Assets\Scripts\TileNode.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

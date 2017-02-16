@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Priority_Queue;
 
 public class GameController : MonoBehaviour {
-
+	
 	public PathfindingObject TestPathfindingObject;
-
-	public List <string> TestList;
 
 	public int Width;
 	public int Height;
@@ -15,10 +14,11 @@ public class GameController : MonoBehaviour {
 	public Board GameBoard;
 
 	void Awake () {
-		TestList = new List<string> ();
-		TestList.Add ("foo");
-		TestList.Remove ("bar");
 		GameBoard = new Board (Width, Height, TilePrefab);
+	}
+
+	void Start () {
+		
 	}
 
 	void Update () {

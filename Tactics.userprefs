@@ -3,12 +3,15 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PathfindingObject.cs">
     <Files>
       <File FileName="Assets\Scripts\Board.cs" Line="62" Column="13" />
-      <File FileName="Assets\Scripts\Tile.cs" Line="41" Column="107" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="27" Column="11" />
+      <File FileName="Assets\Scripts\Tile.cs" Line="42" Column="36" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="16" Column="17" />
       <File FileName="Assets\Scripts\Unit.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Squad.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PathfindingObject.cs" Line="130" Column="46" />
-      <File FileName="Assets\QuickPath\Scripts\AI\qpMoveObject.cs" Line="337" Column="3" />
+      <File FileName="Assets\Scripts\PathfindingObject.cs" Line="87" Column="90" />
+      <File FileName="Assets\QuickPath\Scripts\AI\qpMoveObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Queue\FastPriorityQueue.cs" Line="6" Column="1" />
+      <File FileName="Assets\Scripts\Queue\FastPriorityQueueNode.cs" Line="19" Column="1" />
+      <File FileName="Assets\Scripts\TileNode.cs" Line="7" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Priority_Queue;
 
 public class Tile : MonoBehaviour {
+
+	TileNode myTileNode;
+	public TileNode MyTileNode { get { return myTileNode; } }
 
 	int x;
 	int y;
@@ -35,6 +39,7 @@ public class Tile : MonoBehaviour {
 		this.y = y;
 		transform.position = new Vector2 (x, y);
 		coordinates = transform.position;
+		myTileNode = new TileNode (this);
 	}
 
 	/// <summary>

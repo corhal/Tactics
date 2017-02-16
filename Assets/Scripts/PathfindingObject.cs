@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Priority_Queue;
 
 public class PathfindingObject : MonoBehaviour {
 
 	bool shouldMove;
 	public Tile currentTile;
+
+
 
 	/// <summary>
 	/// The radius around from each node that this object will go to. If higher it will walk further away from nodes,
@@ -81,9 +84,11 @@ public class PathfindingObject : MonoBehaviour {
 		List<Tile> path = new List<Tile> ();                               // will hold the final path
 		bool complete = (end == null || start == null) ? true : false;     // Regulates the main while loop of the algorithm
 		List<Tile> closedList = new List<Tile> ();                         // Closed list for the best candidates.
-		List<Tile> openList = new List<Tile> ();                           // Open list for all candidates(A home for all).
+		int tileCount = Board.Instance.BoardTiles.Length * Board.Instance.BoardTiles[0].Length;
+		FastPriorityQueue<TileNode> openList = new FastPriorityQueue<TileNode> (tileCount);
+		//List<Tile> openList = new List<Tile> ();                           // Open list for all candidates(A home for all).
 		Tile candidate = start;                                            // The current node candidate which is being analyzed in the algorithm.
-		openList.Add (start);                                              // Start node is added to the openlist
+		openList.Enqueue (start.MyTileNode, 0);                                              // Start node is added to the openlist
 		if (start == null || end == null) {
 			return null;                                                   // algorithm cannot be executed if either start or end node are null.
 		}
@@ -107,12 +112,14 @@ public class PathfindingObject : MonoBehaviour {
 
 			foreach (Tile n in candidate.Neighbors) { // отсюда можно убирать тайлы, если через них нельзя пройти
 				// Mark candidate as parent if not in open nor closed.
-				if (!closedList.Contains (n) && !openList.Contains (n)) {
+				if (!closedList.Contains (n) && !openList.Contains (n.MyTileNode)) {
+					n.CalculateTotal (end);
 					n.Parent = candidate;
-					openList.Add (n);
+					float priority = n.Total;
+					openList.Enqueue (n.MyTileNode, priority);
 				}
 				// But if in open, then calculate which is the better parent: Candidate or current parent.
-				else if (openList.Contains (n)) {
+				else if (openList.Contains (n.MyTileNode)) {
 					if (n.Parent.G > candidate.G) { // g is distance between current and parent...
 						// candidate is the better parent as it has a lower combined g value.
 						n.Parent = candidate;
@@ -121,20 +128,19 @@ public class PathfindingObject : MonoBehaviour {
 			}
 			// Calculate h, g and total
 			if (openList.Count > 0) {
-				openList.RemoveAt (0);
+				candidate = openList.Dequeue ().MyTile;
 			}
 			if (openList.Count == 0) {
 				break;
 			}
 			// the below for loop, if conditional and method call updates all nodes in openlist.
-			for (int i = 0; i < openList.Count; i++) {
+			/*for (int i = 0; i < openList.Count; i++) {
 				openList [i].CalculateTotal (end);
 			}
 			openList.Sort (delegate(Tile node1, Tile node2) {
 				return node1.Total.CompareTo (node2.Total);
-			});
+			});*/
 
-			candidate = openList [0];
 			closedList.Add (candidate);
 		}
 		Debug.Log("astar completed in " + astarSteps + " steps. Path found:"+complete);
