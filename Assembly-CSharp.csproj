@@ -59,6 +59,7 @@
      <Compile Include="Assets\QuickPath\Scripts\qpGrid.cs" />
      <Compile Include="Assets\Scripts\Board.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\PathfindingObject.cs" />
      <Compile Include="Assets\Scripts\Squad.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />

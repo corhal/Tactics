@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
+	public PathfindingObject TestPathfindingObject;
+
 	public List <string> TestList;
 
 	public int Width;
@@ -16,14 +18,14 @@ public class GameController : MonoBehaviour {
 		TestList = new List<string> ();
 		TestList.Add ("foo");
 		TestList.Remove ("bar");
+		GameBoard = new Board (Width, Height, TilePrefab);
 	}
 
-	void Start () {
-		GameBoard = new Board (Width, Height, TilePrefab);
-
-		List<Tile> path = GameBoard.AStar (GameBoard.BoardTiles [0] [1], GameBoard.BoardTiles [2] [4]);
-		foreach (var tile in path) {
-			Debug.Log (tile.X + ":" + tile.Y);
+	void Update () {
+		if (Input.GetMouseButtonUp(0)) {
+			Vector2 mousePosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			Tile destination = GameBoard.GetTileByPosition (mousePosition);
+			TestPathfindingObject.MakePath (destination);
 		}
 	}
 }
