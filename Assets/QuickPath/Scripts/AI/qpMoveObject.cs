@@ -188,7 +188,7 @@ public class qpMoveObject : MonoBehaviour
 		}
 
 		int astarSteps = 0;
-		while (openList.Count > 0 && !complete) {                          // ALGORITHM STARTS HERE.
+		while (openList.Count > 0 && !complete) {                          // ALGORITHM STARTS HERE.			
 			astarSteps++;
 			if (candidate == end) {                                        // If current candidate is end, the algorithm has been completed and the path can be built.
 				DestinationNode = end;
@@ -249,7 +249,7 @@ public class qpMoveObject : MonoBehaviour
 			candidate = openList [0];
 			closedList.Add (candidate);
 		}
-		//Debug.Log("astar completed in " + astarSteps + " steps. Path found:"+complete);
+		Debug.Log("astar completed in " + astarSteps + " steps. Path found:"+complete);
 		path.Reverse ();
 		return path;
 	}

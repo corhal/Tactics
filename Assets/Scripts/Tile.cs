@@ -62,12 +62,23 @@ public class Tile : MonoBehaviour {
 	/// Used for A*. Calculates h - distance between current and end nodes.
 	/// </summary>
 	public float CalculateH (Tile end) {
-		return Vector2.Distance(coordinates, end.Coordinates);
+		//return Vector2.Distance(coordinates, end.Coordinates);
+		return ManhattanDistance (this, end);
 	}
 	/// <summary>
 	/// Used for A*. Calculates g - distance between current and parent nodes.
 	/// </summary>
 	public float CalculateG (Tile parent) {
-		return Vector2.Distance(coordinates, parent.Coordinates);
+		//return Vector2.Distance(coordinates, parent.Coordinates);
+		return ManhattanDistance (this, parent);
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("Tile {0}:{1}", X, Y);
+	}
+
+	public float ManhattanDistance (Tile start, Tile finish) {
+		return (Mathf.Abs (finish.X - start.X) + Mathf.Abs (finish.Y - start.Y));
 	}
 }
